@@ -8,20 +8,39 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<LoginScreenViewModel>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: const Text('Demo'),
       ),
-      body: Column(
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              context.read<LoginScreenViewModel>().login('test1', '1234');
-            },
-            child: const Text('Login'),
-          )
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _buildLoginButton(context),
+            Text(viewModel.user?.name ?? ''),
+          ],
+        ),
       ),
     );
+  }
+
+  Widget _buildLoginButton(BuildContext context) {
+    final viewModel = context.watch<LoginScreenViewModel>();
+    if (viewModel.user != null) {
+      return ElevatedButton(
+        onPressed: () {
+          context.read<LoginScreenViewModel>().logout();
+        },
+        child: const Text('Logout'),
+      );
+    } else {
+      return ElevatedButton(
+        onPressed: () {
+          context.read<LoginScreenViewModel>().login('test', '1234');
+        },
+        child: const Text('Login'),
+      );
+    }
   }
 }

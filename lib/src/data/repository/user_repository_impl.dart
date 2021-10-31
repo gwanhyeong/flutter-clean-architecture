@@ -17,4 +17,9 @@ class UserRepositoryImpl extends UserRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> logout() async {
+    return const Right(true);
+  }
 }

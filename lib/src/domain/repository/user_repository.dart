@@ -5,4 +5,5 @@ import '../model/user.dart';
 
 abstract class UserRepository {
   Future<Either<Failure, User>> login(String id, String password);
+  Future<Either<Failure, bool>> logout();
 }
