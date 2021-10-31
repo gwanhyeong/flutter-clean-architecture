@@ -7,13 +7,13 @@ import '../model/user.dart';
 import '../repository/user_repository.dart';
 
 class LoginUseCase extends UseCase<User, LoginParams> {
-  final UserRepository _repository;
+  final UserRepository repository;
 
-  LoginUseCase(this._repository);
+  LoginUseCase(this.repository);
 
   @override
   Future<Either<Failure, User>> execute(LoginParams params) async {
-    return await _repository.login(params.id, params.password);
+    return await repository.login(params.id, params.password);
   }
 }
 

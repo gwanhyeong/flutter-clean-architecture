@@ -2,7 +2,7 @@ import '../../core/error/failures.dart';
 import '../../domain/usecase/login.dart';
 
 class LoginScreenViewModel {
-  final LoginUseCase loginUseCase;
+  LoginUseCase loginUseCase;
 
   LoginScreenViewModel(this.loginUseCase);
 
@@ -14,7 +14,13 @@ class LoginScreenViewModel {
           print(failure.message);
         }
       },
-      (user) => null,
+      (user) {
+        if (user.id == 'test') {
+          print('success');
+        } else {
+          print('failed');
+        }
+      },
     );
   }
 }
