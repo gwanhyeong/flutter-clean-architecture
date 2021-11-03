@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 
-import '../../core/error/failures.dart';
+import '../../core/error/exceptions.dart';
 import '../../core/util/usecase.dart';
 import '../../domain/model/user.dart';
 import '../../domain/usecase/login.dart';
-import '../../domain/usecase/logout.dart';
+import 'usecase.dart';
 
 class LoginScreenViewModel with ChangeNotifier {
-  LoginUseCase loginUseCase;
-  LogoutUseCase logoutUseCase;
+  LoginScreenUseCase useCase;
 
   User? _user;
   User? get user => _user;
 
-  LoginScreenViewModel(this.loginUseCase, this.logoutUseCase);
+  LoginScreenViewModel(this.useCase);
 
   void login(String id, String password) async {
-    final failureOrUser = await loginUseCase.execute(LoginParams(id, password));
+    final failureOrUser = await useCase.login(LoginParams(id, password));
     failureOrUser.fold(
       (failure) {
-        if (failure is ServerFailure) {
+        if (failure is UnauthorisedException) {
           _user = null;
           notifyListeners();
         }
@@ -32,7 +31,7 @@ class LoginScreenViewModel with ChangeNotifier {
   }
 
   void logout() async {
-    final failureOrBool = await logoutUseCase.execute(NoParams());
+    final failureOrBool = await useCase.logout(NoParams());
     failureOrBool.fold(
       (failure) => null,
       (isLogout) {

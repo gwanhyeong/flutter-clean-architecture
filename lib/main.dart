@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'src/data/repository/user_repository_impl.dart';
-import 'src/domain/usecase/login.dart';
-import 'src/domain/usecase/logout.dart';
+import 'src/di/providers.dart';
 import 'src/presentation/login/view.dart';
-import 'src/presentation/login/view_model.dart';
 
 void main() {
-  final userRepository = UserRepositoryImpl();
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => LoginScreenViewModel(
-        LoginUseCase(userRepository),
-        LogoutUseCase(userRepository),
-      ),
+    MultiProvider(
+      providers: globalProviders,
       child: const MyApp(),
     ),
   );
